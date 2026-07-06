@@ -1,113 +1,162 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Resource Remix</title>
-    <link rel="stylesheet" href="options.css">
-  </head>
-  <body>
-    <main class="shell">
-      <header class="topbar">
-        <div>
-          <h1>Resource Remix</h1>
-          <p>Redirect scripts, styles, documents, and other resources to replacement URLs.</p>
-        </div>
-        <label class="switch">
-          <input id="enabled" type="checkbox">
-          <span>Enabled</span>
-        </label>
-      </header>
 
-      <section class="editor" aria-label="Rule editor">
-        <input id="editingId" type="hidden">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Resource Remix</title>
+	<link rel="stylesheet" href="options.css">
+</head>
 
-        <label>
-          <span>Name</span>
-          <input id="name" type="text" placeholder="Local app bundle">
-        </label>
+<body>
+	<main class="shell">
+		<header class="topbar">
+			<div>
+				<h1>Resource Remix</h1>
+			</div>
+		</header>
 
-        <div class="grid">
-          <label>
-            <span>Match Type</span>
-            <select id="matchType">
-              <option value="exact">Exact URL</option>
-              <option value="contains">Contains</option>
-              <option value="regex">Regex</option>
-            </select>
-          </label>
+		<nav class="tabs" aria-label="Settings sections">
+			<button id="rulesTab" class="tab active" type="button" aria-selected="true">Rules</button>
+			<button id="matchesTab" class="tab" type="button" aria-selected="false">Recent Matches</button>
+		</nav>
 
-          <label>
-            <span>Resource Types</span>
-            <select id="resourcePreset">
-              <option value="common">Common page assets</option>
-              <option value="script">Scripts only</option>
-              <option value="stylesheet">Stylesheets only</option>
-              <option value="document">Documents only</option>
-              <option value="all">All supported types</option>
-            </select>
-          </label>
-        </div>
+		<section id="rulesPanel" class="tabPanel active" aria-label="Rules">
+			<section class="rulesList" aria-label="Configured rules">
+				<div class="sectionHeader">
+					<h2>Rules</h2>
+					<div class="headerActions">
+						<button id="addRule" type="button">Add Rule</button>
+						<button id="clearRules" type="button" class="danger">Clear Rules</button>
+					</div>
+				</div>
+				<div id="rules" class="rules"></div>
+			</section>
+		</section>
 
-        <label>
-          <span>Request URL Stub</span>
-          <input id="source" type="text" placeholder="https://example.com/static/app.js">
-        </label>
+		<section id="matchesPanel" class="tabPanel" aria-label="Recent matches">
+			<div class="sectionHeader">
+				<h2>Recent Matches</h2>
+				<button id="clearMatches" type="button" class="secondary">Clear Matches</button>
+			</div>
+			<div class="matchTableWrap">
+				<table class="matchTable">
+					<colgroup>
+						<col class="timeCol">
+						<col class="ruleCol">
+						<col class="typeCol">
+						<col class="tabCol">
+						<col class="requestCol">
+						<col class="redirectCol">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>Time</th>
+							<th>Rule</th>
+							<th>Type</th>
+							<th>Tab</th>
+							<th>Request URL</th>
+							<th>Redirect URL</th>
+						</tr>
+					</thead>
+					<tbody id="matches"></tbody>
+				</table>
+			</div>
+		</section>
 
-        <label>
-          <span>Replacement URL</span>
-          <input id="target" type="text" placeholder="http://localhost:5173/app.js">
-        </label>
+		<p id="status" class="status" role="status"></p>
+	</main>
 
-        <label>
-          <span>Limit To Page Hosts</span>
-          <input id="initiators" type="text" placeholder="example.com, app.example.com">
-        </label>
+	<dialog id="ruleDialog" class="dialog">
+		<form id="ruleForm" method="dialog" class="editor" aria-label="Rule editor">
+			<div class="dialogHeader">
+				<h2 id="dialogTitle">Add Rule</h2>
+				<button id="closeDialog" type="button" class="iconButton" aria-label="Close">x</button>
+			</div>
 
-        <div class="actions">
-          <button id="save" type="button">Save Rule</button>
-          <button id="cancelEdit" type="button" class="secondary">Cancel</button>
-        </div>
-      </section>
+			<input id="editingId" type="hidden">
 
-      <section class="toolbar" aria-label="Tools">
-        <button id="exportRules" type="button" class="secondary">Export</button>
-        <button id="importRules" type="button" class="secondary">Import</button>
-        <button id="clearRules" type="button" class="danger">Clear</button>
-      </section>
+			<label>
+				<span>Name</span>
+				<input id="name" type="text" placeholder="Local app bundle">
+			</label>
 
-      <section>
-        <h2>Rules</h2>
-        <div id="rules" class="rules"></div>
-      </section>
+			<div class="grid">
+				<label>
+					<span>Match Type</span>
+					<select id="matchType">
+						<option value="exact">Exact URL</option>
+						<option value="contains">Contains</option>
+						<option value="regex">Regex</option>
+					</select>
+				</label>
 
-      <section class="jsonPanel" aria-label="Import and export">
-        <textarea id="jsonBox" spellcheck="false" placeholder="Exported rules appear here. Paste exported JSON here before importing."></textarea>
-      </section>
+				<label>
+					<span>Resource Types</span>
+					<select id="resourcePreset">
+						<option value="common">Common page assets</option>
+						<option value="script">Scripts only</option>
+						<option value="stylesheet">Stylesheets only</option>
+						<option value="document">Documents only</option>
+						<option value="all">All supported types</option>
+					</select>
+				</label>
+			</div>
 
-      <p id="status" class="status" role="status"></p>
-    </main>
+			<label>
+				<span>Request URL Stub</span>
+				<input id="source" type="text" placeholder="https://example.com/static/app.js">
+			</label>
 
-    <template id="ruleTemplate">
-      <article class="rule">
-        <div class="ruleMain">
-          <label class="miniSwitch">
-            <input class="ruleEnabled" type="checkbox">
-            <span></span>
-          </label>
-          <div class="ruleText">
-            <strong class="ruleName"></strong>
-            <code class="ruleSource"></code>
-            <code class="ruleTarget"></code>
-          </div>
-        </div>
-        <div class="ruleActions">
-          <button class="edit secondary" type="button">Edit</button>
-          <button class="delete danger" type="button">Delete</button>
-        </div>
-      </article>
-    </template>
+			<label>
+				<span>Replacement URL</span>
+				<input id="target" type="text" placeholder="http://localhost:5173/app.js">
+			</label>
 
-    <script src="options.js"></script>
-  </body>
+			<label>
+				<span>Limit To Page Hosts</span>
+				<input id="initiators" type="text" placeholder="example.com, app.example.com">
+			</label>
+
+			<div class="actions dialogActions">
+				<button id="save" type="button">Save Rule</button>
+				<button id="cancelEdit" type="button" class="secondary">Cancel</button>
+			</div>
+		</form>
+	</dialog>
+
+	<template id="ruleTemplate">
+		<article class="rule">
+			<div class="ruleMain">
+				<label class="miniSwitch">
+					<input class="ruleEnabled" type="checkbox">
+					<span></span>
+				</label>
+				<div class="ruleText">
+					<strong class="ruleName"></strong>
+					<code class="ruleSource"></code>
+					<code class="ruleTarget"></code>
+				</div>
+			</div>
+			<div class="ruleActions">
+				<button class="edit secondary" type="button">Edit</button>
+				<button class="delete danger" type="button">Delete</button>
+			</div>
+		</article>
+	</template>
+
+	<template id="matchTemplate">
+		<tr>
+			<td class="matchTime"></td>
+			<td class="matchRule"></td>
+			<td class="matchType"></td>
+			<td class="matchTab"></td>
+			<td><code class="matchUrl"></code></td>
+			<td><code class="matchRedirect"></code></td>
+		</tr>
+	</template>
+
+	<script src="options.js"></script>
+</body>
+
 </html>

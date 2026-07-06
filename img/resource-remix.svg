@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Resource Remix icon</title>
+  <desc id="desc">Two circular redirect arrows around a web globe.</desc>
+  <defs>
+    <linearGradient id="globeFill" x1="34" y1="30" x2="94" y2="98" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#62e3c7"/>
+      <stop offset="1" stop-color="#147d9f"/>
+    </linearGradient>
+    <linearGradient id="warmArrow" x1="23" y1="91" x2="107" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe36d"/>
+      <stop offset="1" stop-color="#ff7a59"/>
+    </linearGradient>
+    <linearGradient id="coolArrow" x1="105" y1="37" x2="21" y2="72" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d8fbff"/>
+      <stop offset="1" stop-color="#7fd5ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="#202428"/>
+
+  <circle cx="64" cy="64" r="27" fill="url(#globeFill)"/>
+  <circle cx="64" cy="64" r="27" fill="none" stroke="#f7fbff" stroke-width="5"/>
+  <ellipse cx="64" cy="64" rx="11" ry="27" fill="none" stroke="#f7fbff" stroke-width="4"/>
+  <path d="M40 55h48M40 73h48" fill="none" stroke="#f7fbff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M64 37v54" fill="none" stroke="#f7fbff" stroke-width="4" stroke-linecap="round"/>
+
+  <path fill="url(#warmArrow)" d="M22 82 41 78 36 87c7.3 6.8 17.2 10.5 28.1 10.5 15.3 0 28.8-8 35.4-21.1l9.9 5C101 98.2 83.7 108.5 64.1 108.5c-13.7 0-26.7-5.4-36.2-14.8l-5 9.1z"/>
+
+  <path fill="url(#coolArrow)" d="M106 46 87 50 92 41c-7.3-6.8-17.2-10.5-28.1-10.5-15.3 0-28.8 8-35.4 21.1l-9.9-5C27 29.8 44.3 19.5 63.9 19.5c13.7 0 26.7 5.4 36.2 14.8l5-9.1z"/>
+</svg>

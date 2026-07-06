@@ -3,9 +3,20 @@
   "name": "Resource Remix",
   "version": "0.1.0",
   "description": "Redirect page resources to local or remote replacement URLs for development.",
+  "icons": {
+    "16": "icons/resource-remix-16.png",
+    "32": "icons/resource-remix-32.png",
+    "48": "icons/resource-remix-48.png",
+    "128": "icons/resource-remix-128.png"
+  },
   "action": {
     "default_title": "Resource Remix",
-    "default_popup": "options.html"
+    "default_icon": {
+      "16": "icons/resource-remix-16.png",
+      "32": "icons/resource-remix-32.png",
+      "48": "icons/resource-remix-48.png",
+      "128": "icons/resource-remix-128.png"
+    }
   },
   "options_page": "options.html",
   "background": {
@@ -13,7 +24,9 @@
   },
   "permissions": [
     "declarativeNetRequestWithHostAccess",
-    "storage"
+    "declarativeNetRequestFeedback",
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
     "<all_urls>"
