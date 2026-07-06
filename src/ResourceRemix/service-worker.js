@@ -139,13 +139,15 @@ async function recordMatch(info) {
 	const settings = normalizeSettings(data[STORAGE_KEY]);
 	const matchLog = Array.isArray(data[MATCH_LOG_KEY]) ? data[MATCH_LOG_KEY] : [];
 	const rule = settings.rules[info.rule.ruleId - RULE_ID_BASE - 1];
+	const dynamicRules = await chrome.declarativeNetRequest.getDynamicRules();
+	const matchedRule = dynamicRules.find((dynamicRule) => dynamicRule.id === info.rule.ruleId);
 
 	matchLog.unshift({
 		at: new Date().toISOString(),
 		ruleId: info.rule.ruleId,
 		ruleName: rule && rule.name ? rule.name : "",
 		ruleSource: rule && rule.source ? rule.source : "",
-		redirectUrl: rule && rule.target ? rule.target : "",
+		redirectUrl: getRedirectUrl(matchedRule, rule),
 		requestUrl: info.request.url,
 		resourceType: info.request.type,
 		tabId: info.request.tabId
@@ -162,4 +164,14 @@ async function recordMatch(info) {
 async function clearMatchLog() {
 	await chrome.storage.local.set({ [MATCH_LOG_KEY]: [] });
 	await chrome.action.setBadgeText({ text: "" });
+}
+
+function getRedirectUrl(matchedRule, storedRule) {
+	if (matchedRule && matchedRule.action && matchedRule.action.redirect && matchedRule.action.redirect.url) {
+		return matchedRule.action.redirect.url;
+	}
+	if (storedRule && storedRule.target) {
+		return storedRule.target;
+	}
+	return "";
 }

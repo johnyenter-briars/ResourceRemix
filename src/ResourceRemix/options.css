@@ -15,9 +15,10 @@ body {
 }
 
 .shell {
-	max-width: 1280px;
+	width: 100%;
+	max-width: none;
 	margin: 0 auto;
-	padding: 24px;
+	padding: 32px 40px;
 }
 
 .topbar {
@@ -283,14 +284,14 @@ code {
 
 .matchTable {
 	width: 100%;
-	min-width: 1180px;
+	table-layout: fixed;
 	border-collapse: collapse;
 }
 
 .matchTable th,
 .matchTable td {
 	border-bottom: 1px solid #e0e6e9;
-	padding: 10px 12px;
+	padding: 10px 14px;
 	text-align: left;
 	vertical-align: top;
 }
@@ -308,23 +309,51 @@ code {
 	font-size: 13px;
 }
 
+.matchTable code {
+	white-space: normal;
+}
+
 .matchTable tbody tr:hover {
 	background: #f7fafb;
 }
 
+.timeCol {
+	width: 170px;
+}
+
+.ruleCol {
+	width: 120px;
+}
+
+.typeCol {
+	width: 82px;
+}
+
+.tabCol {
+	width: 92px;
+}
+
+.requestCol {
+	width: auto;
+}
+
+.redirectCol {
+	width: 32%;
+}
+
 .matchTime {
-	width: 180px;
 	white-space: nowrap;
 }
 
 .matchRule {
-	width: 180px;
 	font-weight: 700;
 }
 
-.matchType,
+.matchType {
+	white-space: nowrap;
+}
+
 .matchTab {
-	width: 110px;
 	white-space: nowrap;
 }
 
