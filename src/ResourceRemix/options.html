@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resource Remix</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Resource Remix</h1>
+          <p>Redirect scripts, styles, documents, and other resources to replacement URLs.</p>
+        </div>
+        <label class="switch">
+          <input id="enabled" type="checkbox">
+          <span>Enabled</span>
+        </label>
+      </header>
+
+      <section class="editor" aria-label="Rule editor">
+        <input id="editingId" type="hidden">
+
+        <label>
+          <span>Name</span>
+          <input id="name" type="text" placeholder="Local app bundle">
+        </label>
+
+        <div class="grid">
+          <label>
+            <span>Match Type</span>
+            <select id="matchType">
+              <option value="exact">Exact URL</option>
+              <option value="contains">Contains</option>
+              <option value="regex">Regex</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Resource Types</span>
+            <select id="resourcePreset">
+              <option value="common">Common page assets</option>
+              <option value="script">Scripts only</option>
+              <option value="stylesheet">Stylesheets only</option>
+              <option value="document">Documents only</option>
+              <option value="all">All supported types</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          <span>Request URL Stub</span>
+          <input id="source" type="text" placeholder="https://example.com/static/app.js">
+        </label>
+
+        <label>
+          <span>Replacement URL</span>
+          <input id="target" type="text" placeholder="http://localhost:5173/app.js">
+        </label>
+
+        <label>
+          <span>Limit To Page Hosts</span>
+          <input id="initiators" type="text" placeholder="example.com, app.example.com">
+        </label>
+
+        <div class="actions">
+          <button id="save" type="button">Save Rule</button>
+          <button id="cancelEdit" type="button" class="secondary">Cancel</button>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="Tools">
+        <button id="exportRules" type="button" class="secondary">Export</button>
+        <button id="importRules" type="button" class="secondary">Import</button>
+        <button id="clearRules" type="button" class="danger">Clear</button>
+      </section>
+
+      <section>
+        <h2>Rules</h2>
+        <div id="rules" class="rules"></div>
+      </section>
+
+      <section class="jsonPanel" aria-label="Import and export">
+        <textarea id="jsonBox" spellcheck="false" placeholder="Exported rules appear here. Paste exported JSON here before importing."></textarea>
+      </section>
+
+      <p id="status" class="status" role="status"></p>
+    </main>
+
+    <template id="ruleTemplate">
+      <article class="rule">
+        <div class="ruleMain">
+          <label class="miniSwitch">
+            <input class="ruleEnabled" type="checkbox">
+            <span></span>
+          </label>
+          <div class="ruleText">
+            <strong class="ruleName"></strong>
+            <code class="ruleSource"></code>
+            <code class="ruleTarget"></code>
+          </div>
+        </div>
+        <div class="ruleActions">
+          <button class="edit secondary" type="button">Edit</button>
+          <button class="delete danger" type="button">Delete</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="options.js"></script>
+  </body>
+</html>
