@@ -1,21 +1,22 @@
 {
-  "manifest_version": 3,
-  "name": "Resource Remix",
-  "version": "0.1.0",
-  "description": "Redirect page resources to local or remote replacement URLs for development.",
-  "action": {
-    "default_title": "Resource Remix",
-    "default_popup": "options.html"
-  },
-  "options_page": "options.html",
-  "background": {
-    "service_worker": "service-worker.js"
-  },
-  "permissions": [
-    "declarativeNetRequestWithHostAccess",
-    "storage"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ]
+	"manifest_version": 3,
+	"name": "Resource Remix",
+	"version": "0.1.0",
+	"description": "Redirect page resources to local or remote replacement URLs for development.",
+	"action": {
+		"default_title": "Resource Remix"
+	},
+	"options_page": "options.html",
+	"background": {
+		"service_worker": "service-worker.js"
+	},
+	"permissions": [
+		"declarativeNetRequestWithHostAccess",
+		"declarativeNetRequestFeedback",
+		"storage",
+		"tabs"
+	],
+	"host_permissions": [
+		"<all_urls>"
+	]
 }
