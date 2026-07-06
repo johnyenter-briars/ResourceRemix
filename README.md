@@ -1,6 +1,9 @@
-# Resource Remix
+<p align="center">
+  <img src="img/resource-remix.png" width="96" alt="Flow Run Finder V2 icon" />
+</p>
 
-![Resource Remix icon](img/resource-remix.svg)
+
+# Resource Remix
 
 Resource Remix is a Chrome Manifest V3 extension for redirecting page resources to replacement URLs during development.
 
@@ -41,17 +44,6 @@ Use a server that sends CORS headers. This is necessary when the replacement res
 5. Enter the replacement URL, such as `http://127.0.0.1:5173/foo.js`.
 6. Save the rule.
 
-Each rule has its own enabled checkbox in the rule list.
-
-![Rule and match example](img/rule-and-match-example.png)
-
-## Confirm It Worked
-
-Open the **Recent Matches** tab after reloading the target page. If the rule matched, the table should show the request URL and redirect URL.
-
-Chrome DevTools may also show a `307 Internal Redirect` with the local replacement URL in the `Location` response header.
-
-![Chrome internal redirect](img/devtools-internal-redirect.png)
 
 ## Required DevTools Settings
 
