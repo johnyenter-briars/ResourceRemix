@@ -82,12 +82,6 @@ h2 {
 	display: block;
 }
 
-.rulesLayout {
-	display: grid;
-	grid-template-columns: minmax(380px, 440px) minmax(0, 1fr);
-	gap: 16px;
-}
-
 .editor,
 .rulesList,
 .rule,
@@ -179,13 +173,13 @@ button:hover {
 }
 
 .actions,
+.headerActions,
 .ruleActions {
 	display: flex;
 	gap: 8px;
 	align-items: center;
 }
 
-.switch,
 .miniSwitch {
 	display: inline-flex;
 	grid-auto-flow: column;
@@ -194,7 +188,6 @@ button:hover {
 	white-space: nowrap;
 }
 
-.switch input,
 .miniSwitch input {
 	width: 18px;
 	height: 18px;
@@ -206,6 +199,48 @@ button:hover {
 	justify-content: space-between;
 	gap: 12px;
 	margin-bottom: 12px;
+}
+
+.dialog {
+	width: min(760px, calc(100vw - 32px));
+	border: 0;
+	border-radius: 8px;
+	padding: 0;
+	background: transparent;
+	color: inherit;
+}
+
+.dialog::backdrop {
+	background: rgba(12, 18, 22, 0.52);
+}
+
+.dialog .editor {
+	box-shadow: 0 16px 48px rgba(12, 18, 22, 0.28);
+}
+
+.dialogHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.iconButton {
+	min-width: 34px;
+	width: 34px;
+	padding: 0;
+	border-color: #aeb8be;
+	background: #ffffff;
+	color: #182025;
+	font-weight: 700;
+}
+
+.iconButton:hover {
+	background: #edf2f4;
+}
+
+.dialogActions {
+	justify-content: flex-end;
 }
 
 .rules {
@@ -294,12 +329,28 @@ code {
 }
 
 .status {
+	position: fixed;
+	right: 24px;
+	bottom: 18px;
+	z-index: 5;
 	min-height: 20px;
-	margin-top: 12px;
+	max-width: min(520px, calc(100vw - 48px));
+	margin: 0;
+	border: 1px solid #bdd7c3;
+	border-radius: 8px;
+	padding: 9px 12px;
+	background: #f1fbf3;
 	color: #276534;
+	box-shadow: 0 8px 24px rgba(12, 18, 22, 0.12);
+}
+
+.status:empty {
+	display: none;
 }
 
 .status.error {
+	border-color: #e1b8b8;
+	background: #fff4f4;
 	color: #a12b2b;
 }
 
@@ -349,6 +400,18 @@ code {
 		border-color: #3a464d;
 	}
 
+	.status {
+		background: #1b2b20;
+		border-color: #31583a;
+		color: #b9e9c0;
+	}
+
+	.status.error {
+		background: #321f21;
+		border-color: #673439;
+		color: #ffbcbc;
+	}
+
 	code {
 		color: #c4d1d7;
 	}
@@ -359,6 +422,16 @@ code {
 
 	.danger:hover {
 		background: #372526;
+	}
+
+	.iconButton {
+		background: #1d252a;
+		color: #ecf1f3;
+		border-color: #3a464d;
+	}
+
+	.iconButton:hover {
+		background: #263037;
 	}
 
 	.matchTable th {
@@ -385,8 +458,12 @@ code {
 		display: grid;
 	}
 
-	.rulesLayout,
 	.grid {
 		grid-template-columns: 1fr;
+	}
+
+	.sectionHeader {
+		align-items: flex-start;
+		flex-direction: column;
 	}
 }

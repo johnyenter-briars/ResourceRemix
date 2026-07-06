@@ -2,7 +2,11 @@ const STORAGE_KEY = "resourceRemixSettings";
 const MATCH_LOG_KEY = "resourceRemixMatchLog";
 
 const form = {
-	enabled: document.querySelector("#enabled"),
+	addRule: document.querySelector("#addRule"),
+	ruleDialog: document.querySelector("#ruleDialog"),
+	ruleForm: document.querySelector("#ruleForm"),
+	dialogTitle: document.querySelector("#dialogTitle"),
+	closeDialog: document.querySelector("#closeDialog"),
 	editingId: document.querySelector("#editingId"),
 	name: document.querySelector("#name"),
 	matchType: document.querySelector("#matchType"),
@@ -26,7 +30,6 @@ const form = {
 };
 
 let state = {
-	enabled: true,
 	rules: []
 };
 
@@ -34,16 +37,14 @@ init();
 
 async function init() {
 	state = await loadSettings();
-	form.enabled.checked = state.enabled;
 	renderRules();
 	resetEditor();
 
-	form.enabled.addEventListener("change", async () => {
-		state.enabled = form.enabled.checked;
-		await saveSettings("Extension state saved.");
-	});
+	form.addRule.addEventListener("click", openAddRuleDialog);
 	form.save.addEventListener("click", saveRule);
-	form.cancelEdit.addEventListener("click", resetEditor);
+	form.cancelEdit.addEventListener("click", closeRuleDialog);
+	form.closeDialog.addEventListener("click", closeRuleDialog);
+	form.ruleDialog.addEventListener("cancel", () => resetEditor());
 	form.clearRules.addEventListener("click", clearRules);
 	form.clearMatches.addEventListener("click", clearMatches);
 	form.rulesTab.addEventListener("click", () => selectTab("rules"));
@@ -70,7 +71,6 @@ async function loadSettings() {
 	const data = await chrome.storage.local.get(STORAGE_KEY);
 	const settings = data[STORAGE_KEY] || {};
 	return {
-		enabled: settings.enabled !== false,
 		rules: Array.isArray(settings.rules) ? settings.rules : []
 	};
 }
@@ -109,7 +109,7 @@ async function saveRule() {
 		});
 	}
 
-	resetEditor();
+	closeRuleDialog();
 	await saveSettings("Rule saved.");
 }
 
@@ -222,6 +222,7 @@ async function renderMatches() {
 
 function editRule(rule) {
 	form.editingId.value = rule.id;
+	form.dialogTitle.textContent = "Edit Rule";
 	form.name.value = rule.name || "";
 	form.matchType.value = rule.matchType || "exact";
 	form.resourcePreset.value = rule.resourcePreset || "common";
@@ -229,10 +230,12 @@ function editRule(rule) {
 	form.target.value = rule.target || "";
 	form.initiators.value = rule.initiators || "";
 	form.save.textContent = "Update Rule";
+	openRuleDialog();
 }
 
 function resetEditor() {
 	form.editingId.value = "";
+	form.dialogTitle.textContent = "Add Rule";
 	form.name.value = "";
 	form.matchType.value = "exact";
 	form.resourcePreset.value = "common";
@@ -242,9 +245,28 @@ function resetEditor() {
 	form.save.textContent = "Save Rule";
 }
 
+function openAddRuleDialog() {
+	resetEditor();
+	openRuleDialog();
+}
+
+function openRuleDialog() {
+	if (!form.ruleDialog.open) {
+		form.ruleDialog.showModal();
+	}
+	setTimeout(() => form.name.focus(), 0);
+}
+
+function closeRuleDialog() {
+	resetEditor();
+	if (form.ruleDialog.open) {
+		form.ruleDialog.close();
+	}
+}
+
 async function clearRules() {
 	state.rules = [];
-	resetEditor();
+	closeRuleDialog();
 	await saveSettings("Rules cleared.");
 }
 

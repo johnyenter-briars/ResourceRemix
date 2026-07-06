@@ -47,9 +47,9 @@ async function applyRules() {
 	const removeRuleIds = existingRules
 		.filter((rule) => rule.id >= RULE_ID_BASE)
 		.map((rule) => rule.id);
-	const addRules = settings.enabled === false
-		? []
-		: settings.rules.filter((rule) => rule.enabled !== false).map(toDnrRule);
+	const addRules = settings.rules
+		.map((rule, index) => rule.enabled === false ? null : toDnrRule(rule, index))
+		.filter(Boolean);
 
 	await chrome.declarativeNetRequest.updateDynamicRules({
 		removeRuleIds,
@@ -86,7 +86,6 @@ async function getSettings() {
 function normalizeSettings(settings) {
 	const normalized = settings && typeof settings === "object" ? settings : {};
 	return {
-		enabled: normalized.enabled !== false,
 		rules: Array.isArray(normalized.rules) ? normalized.rules : []
 	};
 }
